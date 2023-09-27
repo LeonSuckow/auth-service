@@ -1,8 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import z from 'zod'
 import { prisma } from '../lib/prisma';
-import { hash } from 'argon2'
-import { Hash } from 'crypto';
+import authService from '../auth/auth.service';
 export async function authRoutes(app: FastifyInstance) {
 
   app.get('/api/sessions', async (request, response) => {
@@ -18,28 +17,8 @@ export async function authRoutes(app: FastifyInstance) {
 
     const { username, password } = authSchema.parse(request.body);
 
-    const user = await prisma.user.findFirstOrThrow({
-      where: {
-        username,
-        password,
-      },
-    })
+    const hashCode = await authService.create({ username, password });
 
-    if (!user) {
-      return response.status(404).send({ message: 'User not found' })
-    }
-
-    const hashCode = await hash(`${username}${password}${new Date().toString()}`)
-
-
-    await prisma.session.create({
-      data: {
-        hash: hashCode,
-        userId: user.id
-      }
-    })
-
-    return response.status(200).send({ hashCode })
+    return response.status(201).send({ hashCode })
   })
-
 }
