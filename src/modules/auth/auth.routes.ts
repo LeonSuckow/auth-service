@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import z from 'zod'
-import { prisma } from '../lib/prisma';
+import { prisma } from '../../lib/prisma';
 import authService from '../auth/auth.service';
 export async function authRoutes(app: FastifyInstance) {
 
   app.get('/api/sessions', async (request, response) => {
-    const sessions = await prisma.session.findMany();
+    const sessions = await authService.getAll();
     return response.status(200).send(sessions)
   })
 

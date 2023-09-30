@@ -1,6 +1,6 @@
-import { prisma } from "../lib/prisma";
-import { AlreadyExistError } from "../services/error/already-exist.error";
-import { NotFoundError } from "../services/error/not-found.error";
+import { prisma } from "../../lib/prisma";
+import { AlreadyExistError } from "../../services/error/already-exist.error";
+import { NotFoundError } from "../../services/error/not-found.error";
 import { IUserRepository } from "./user.repository.interface";
 import { UserCreateCommand, UserType, UserUpdateCommand } from "./user.types";
 

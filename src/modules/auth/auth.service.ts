@@ -1,6 +1,6 @@
 import { IUserRepository } from './../user/user.repository.interface';
 import { hash } from "argon2"
-import { NotFoundError } from "../services/error/not-found.error"
+import { NotFoundError } from "../../services/error/not-found.error"
 import authRepository, { AuthRepository } from "./auth.repository"
 import userRepository, { UserRepository } from "../user/user.repository"
 import { IAuthService } from "./auth.service.interface"
@@ -10,7 +10,7 @@ import { IAuthRepository } from "./auth.repository.interface"
 export class AuthService implements IAuthService {
   constructor(
     private iAuthRepository: IAuthRepository,
-    private IUserRepository: IUserRepository
+    private iUserRepository: IUserRepository
 
   ) {
   }
@@ -29,7 +29,7 @@ export class AuthService implements IAuthService {
 
 
   async create ({ username, password }: SessionServiceCreateCommand) {
-    const user = await userRepository.getUserByUsernameAndPassword(username, password)
+    const user = await this.iUserRepository.getUserByUsernameAndPassword(username, password)
 
     if (!user) {
       throw new NotFoundError('User not found')

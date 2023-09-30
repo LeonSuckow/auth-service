@@ -1,10 +1,10 @@
 import { hash } from "argon2";
-import { prisma } from "../lib/prisma";
 import { IAuthRepository } from "./auth.repository.interface";
 import { SessionRepositoryCreateCommand, SessionType } from "./auth.types";
+import { prisma } from "../../lib/prisma";
 
 export class AuthRepository implements IAuthRepository {
-  getAll():Promise<SessionType[]>{
+  getAll():Promise<SessionType[]>{ 
     return prisma.session.findMany()
   };
   getById(id: string): Promise<SessionType | null>{
@@ -22,7 +22,7 @@ export class AuthRepository implements IAuthRepository {
     })
   };
   async create({ hashCode, userId }: SessionRepositoryCreateCommand): Promise<string>{
-     prisma.session.create({
+     await prisma.session.create({
       data: {
         hash: hashCode,
         userId

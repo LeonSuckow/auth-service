@@ -1,4 +1,4 @@
-import { SessionRepositoryCreateCommand, SessionServiceCreateCommand, SessionType } from "./auth.types"
+import { SessionServiceCreateCommand, SessionType } from "./auth.types"
 
 
 export interface IAuthService{
